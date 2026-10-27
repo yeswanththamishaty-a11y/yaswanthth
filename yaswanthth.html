@@ -1,0 +1,515 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShopEasy - Online Shopping</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f4f6f9;
+    color: #222;
+}
+
+/* Navigation Bar */
+header {
+    background: #172337;
+    color: white;
+    padding: 18px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.logo {
+    font-size: 27px;
+    font-weight: bold;
+    color: #ffcc33;
+}
+
+.search-box {
+    display: flex;
+    flex: 1;
+    max-width: 450px;
+}
+
+.search-box input {
+    padding: 12px;
+    border: none;
+    width: 100%;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+}
+
+.search-box button {
+    padding: 12px 18px;
+    background: #ffcc33;
+    border: none;
+    cursor: pointer;
+}
+
+nav {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: #ffcc33;
+}
+
+/* Categories */
+.categories {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 18px;
+    background: white;
+    flex-wrap: wrap;
+}
+
+.categories a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.categories a:hover {
+    color: #2874f0;
+}
+
+/* Promotional Banner */
+.banner {
+    margin: 22px auto;
+    width: 90%;
+    padding: 48px 25px;
+    text-align: center;
+    color: white;
+    border-radius: 12px;
+    background: linear-gradient(120deg, #2874f0, #7d3cdb);
+}
+
+.banner h1 {
+    font-size: 36px;
+    margin-bottom: 12px;
+}
+
+.banner p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.banner button {
+    padding: 12px 25px;
+    background: #ffcc33;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Products */
+.container {
+    width: 90%;
+    margin: 30px auto;
+}
+
+.section-title {
+    margin-bottom: 22px;
+    font-size: 27px;
+}
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.product-card {
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 3px 12px #00000012;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px #00000020;
+}
+
+.product-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: contain;
+    margin-bottom: 12px;
+}
+
+.product-card h3 {
+    margin-bottom: 10px;
+}
+
+.description {
+    font-size: 13px;
+    color: #666;
+    min-height: 32px;
+    margin-bottom: 10px;
+}
+
+.rating {
+    color: #16853c;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.price {
+    font-size: 21px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.old-price {
+    color: #888;
+    text-decoration: line-through;
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+.discount {
+    color: #16853c;
+    font-size: 14px;
+    margin-bottom: 14px;
+}
+
+.product-card button {
+    background: #2874f0;
+    color: white;
+    border: none;
+    padding: 11px;
+    width: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.product-card button:hover {
+    background: #1558c0;
+}
+
+/* Footer */
+footer {
+    background: #172337;
+    color: white;
+    text-align: center;
+    padding: 25px;
+    margin-top: 45px;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+    .products {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 500px) {
+    header {
+        justify-content: center;
+    }
+
+    .search-box {
+        order: 3;
+        flex-basis: 100%;
+    }
+
+    nav {
+        gap: 12px;
+    }
+
+    .products {
+        grid-template-columns: 1fr;
+    }
+
+    .banner h1 {
+        font-size: 27px;
+    }
+
+    .categories {
+        gap: 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">ShopEasy</div>
+
+    <div class="search-box">
+        <input type="text" id="search"
+               placeholder="Search for products..."
+               aria-label="Search products">
+        <button onclick="searchProducts()">Search</button>
+    </div>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#products">Products</a>
+        <a href="#cart">🛒 Cart (<span id="cart-count">0</span>)</a>
+    </nav>
+</header>
+
+<div class="categories">
+    <a onclick="filterProducts('All')">All</a>
+    <a onclick="filterProducts('Electronics')">Electronics</a>
+    <a onclick="filterProducts('Fashion')">Fashion</a>
+    <a onclick="filterProducts('Accessories')">Accessories</a>
+    <a onclick="filterProducts('Home')">Home</a>
+</div>
+
+<section class="banner" id="home">
+    <h1>Big Shopping Festival!</h1>
+    <p>Discover amazing products with discounts up to 50%.</p>
+    <button onclick="document.getElementById('products')
+        .scrollIntoView({behavior:'smooth'})">
+        Shop Now
+    </button>
+</section>
+
+<main class="container" id="products">
+    <h2 class="section-title">Featured Products</h2>
+    <div class="products" id="product-list"></div>
+    <p id="empty-message" style="display:none;text-align:center;padding:30px">
+        No products found. Try another search.
+    </p>
+</main>
+
+<section class="container" id="cart">
+    <h2 class="section-title">Shopping Cart</h2>
+    <div id="cart-items">Your cart is empty.</div>
+    <h3 style="margin-top:15px">
+        Total: ₹<span id="cart-total">0</span>
+    </h3>
+</section>
+
+<footer>
+    <p>© 2026 ShopEasy | Online Shopping Website</p>
+    <p style="margin-top:8px">Quality Products • Great Prices • Easy Shopping</p>
+</footer>
+
+<script>
+const products = [
+    {
+        id: 1,
+        name: "Wireless Headphones",
+        category: "Electronics",
+        price: 1499,
+        oldPrice: 2499,
+        rating: "4.5 ★",
+        description: "Enjoy clear sound and wireless music.",
+        image: "https://placehold.co/300x220/e8f0ff/172337?text=Headphones"
+    },
+    {
+        id: 2,
+        name: "Smart Watch",
+        category: "Electronics",
+        price: 1999,
+        oldPrice: 2999,
+        rating: "4.3 ★",
+        description: "Track time, activity and daily goals.",
+        image: "https://placehold.co/300x220/f0e8ff/172337?text=Smart+Watch"
+    },
+    {
+        id: 3,
+        name: "Running Shoes",
+        category: "Fashion",
+        price: 1299,
+        oldPrice: 1999,
+        rating: "4.4 ★",
+        description: "Comfortable shoes for everyday use.",
+        image: "https://placehold.co/300x220/e8f8e8/172337?text=Running+Shoes"
+    },
+    {
+        id: 4,
+        name: "Travel Backpack",
+        category: "Accessories",
+        price: 899,
+        oldPrice: 1499,
+        rating: "4.2 ★",
+        description: "A practical bag for travel and college.",
+        image: "https://placehold.co/300x220/fff0e0/172337?text=Backpack"
+    },
+    {
+        id: 5,
+        name: "Cotton T-Shirt",
+        category: "Fashion",
+        price: 499,
+        oldPrice: 799,
+        rating: "4.1 ★",
+        description: "A casual cotton T-shirt for daily wear.",
+        image: "https://placehold.co/300x220/ffe8ed/172337?text=T-Shirt"
+    },
+    {
+        id: 6,
+        name: "Bluetooth Speaker",
+        category: "Electronics",
+        price: 1099,
+        oldPrice: 1799,
+        rating: "4.6 ★",
+        description: "Portable speaker for your favourite music.",
+        image: "https://placehold.co/300x220/e0f7fa/172337?text=Speaker"
+    },
+    {
+        id: 7,
+        name: "Desk Lamp",
+        category: "Home",
+        price: 699,
+        oldPrice: 999,
+        rating: "4.3 ★",
+        description: "Brighten your study table or workspace.",
+        image: "https://placehold.co/300x220/fff5cc/172337?text=Desk+Lamp"
+    },
+    {
+        id: 8,
+        name: "Sunglasses",
+        category: "Accessories",
+        price: 599,
+        oldPrice: 999,
+        rating: "4.0 ★",
+        description: "Stylish sunglasses for outdoor use.",
+        image: "https://placehold.co/300x220/e9e9e9/172337?text=Sunglasses"
+    }
+];
+
+let cart = [];
+let currentCategory = "All";
+
+function displayProducts(list) {
+    const productList = document.getElementById("product-list");
+    productList.innerHTML = "";
+
+    document.getElementById("empty-message").style.display =
+        list.length ? "none" : "block";
+
+    list.forEach(product => {
+        const discount = Math.round(
+            (1 - product.price / product.oldPrice) * 100
+        );
+
+        productList.innerHTML += `
+            <article class="product-card">
+                <img src="${product.image}"
+                     alt="${product.name}"
+                     loading="lazy">
+                <h3>${product.name}</h3>
+                <p class="description">${product.description}</p>
+                <p class="rating">★ ${product.rating}</p>
+                <p class="price">
+                    ₹${product.price}
+                    <span class="old-price">₹${product.oldPrice}</span>
+                </p>
+                <p class="discount">${discount}% OFF</p>
+                <button onclick="addToCart(${product.id})">
+                    Add to Cart
+                </button>
+            </article>
+        `;
+    });
+}
+
+function filterProducts(category) {
+    currentCategory = category;
+    const query = document.getElementById("search")
+        .value.toLowerCase();
+
+    const filtered = products.filter(product =>
+        (category === "All" || product.category === category) &&
+        (product.name.toLowerCase().includes(query) ||
+         product.description.toLowerCase().includes(query))
+    );
+
+    displayProducts(filtered);
+}
+
+function searchProducts() {
+    filterProducts(currentCategory);
+}
+
+document.getElementById("search").addEventListener("input", () => {
+    filterProducts(currentCategory);
+});
+
+function addToCart(id) {
+    const product = products.find(item => item.id === id);
+    const existing = cart.find(item => item.id === id);
+
+    if (existing) {
+        existing.quantity++;
+    } else {
+        cart.push({...product, quantity: 1});
+    }
+
+    updateCart();
+}
+
+function removeFromCart(id) {
+    cart = cart.filter(item => item.id !== id);
+    updateCart();
+}
+
+function updateCart() {
+    const count = cart.reduce(
+        (sum, item) => sum + item.quantity, 0
+    );
+
+    const total = cart.reduce(
+        (sum, item) => sum + item.price * item.quantity, 0
+    );
+
+    document.getElementById("cart-count").textContent = count;
+    document.getElementById("cart-total").textContent =
+        total.toLocaleString("en-IN");
+
+    const cartItems = document.getElementById("cart-items");
+
+    if (!cart.length) {
+        cartItems.textContent = "Your cart is empty.";
+        return;
+    }
+
+    cartItems.innerHTML = cart.map(item => `
+        <div style="padding:12px 0;border-bottom:1px solid #ddd">
+            <strong>${item.name}</strong>
+            — ₹${item.price} × ${item.quantity}
+            <button onclick="removeFromCart(${item.id})"
+                style="margin-left:12px;padding:5px 10px;cursor:pointer">
+                Remove
+            </button>
+        </div>
+    `).join("");
+}
+
+displayProducts(products);
+</script>
+
+</body>
+</html>
